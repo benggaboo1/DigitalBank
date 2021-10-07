@@ -8,6 +8,7 @@ import com.whitecloak.digitalbank.repository.UserRepository;
 import com.whitecloak.digitalbank.util.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
 
@@ -34,12 +35,24 @@ public class DigitalBankServiceImpl implements DigitalBankService {
 
     @Override
     public UserEntity getUser(Long id) {
+        UserEntity user = userRepository.findById(id);
+
+        if (ObjectUtils.isEmpty(user)) {
+            //Should throw error
+            System.out.println("user not found");
+        }
         return userRepository.findById(id);
     }
 
     @Override
     public UserAccountResponse getAccountDetails(Long accountNumber) {
         UserAccountEntity accountEntity = userAccountRepository.findByAccountNumber(accountNumber);
+
+        if (ObjectUtils.isEmpty(accountEntity)) {
+            //Should throw error
+            return null;
+        }
+
         return new UserAccountResponse(accountEntity.getUserEntity().getId(),
                 accountEntity.getAccountNumber(), accountEntity.getBalance());
     }

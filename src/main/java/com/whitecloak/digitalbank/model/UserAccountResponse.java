@@ -12,6 +12,8 @@ public class UserAccountResponse {
     private Long accountNumber;
     private BigDecimal balance;
 
+    public UserAccountResponse() { }
+
     public UserAccountResponse(Long userId, Long accountNumber, BigDecimal balance) {
         this.accountNumber = accountNumber;
         this.userId = userId;
