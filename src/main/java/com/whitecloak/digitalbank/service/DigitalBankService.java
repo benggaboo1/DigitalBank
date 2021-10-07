@@ -1,9 +1,10 @@
 package com.whitecloak.digitalbank.service;
 
-import com.whitecloak.digitalbank.model.UserAccountEntity;
+import com.whitecloak.digitalbank.model.UserAccountResponse;
 import com.whitecloak.digitalbank.model.UserEntity;
 
 public interface DigitalBankService {
-    UserAccountEntity register(UserEntity newUser);
+    UserAccountResponse register(UserEntity newUser);
     UserEntity getUser(Long id);
+    UserAccountResponse getAccountDetails(Long accountNumber);
 }

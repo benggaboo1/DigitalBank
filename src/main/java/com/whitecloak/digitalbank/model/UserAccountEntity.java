@@ -20,12 +20,10 @@ public class UserAccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonProperty("user")
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @JsonProperty("account_number")
     @Column(name = "account_number")
     private Long accountNumber;
 

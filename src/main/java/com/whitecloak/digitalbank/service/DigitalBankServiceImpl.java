@@ -1,6 +1,7 @@
 package com.whitecloak.digitalbank.service;
 
 import com.whitecloak.digitalbank.model.UserAccountEntity;
+import com.whitecloak.digitalbank.model.UserAccountResponse;
 import com.whitecloak.digitalbank.model.UserEntity;
 import com.whitecloak.digitalbank.repository.UserAccountRepository;
 import com.whitecloak.digitalbank.repository.UserRepository;
@@ -24,9 +25,11 @@ public class DigitalBankServiceImpl implements DigitalBankService {
     }
 
     @Override
-    public UserAccountEntity register(UserEntity newUser) {
+    public UserAccountResponse register(UserEntity newUser) {
         UserEntity newUserEntity = userRepository.save(newUser);
-        return openNewAccount(newUserEntity);
+        UserAccountEntity accountEntity = openNewAccount(newUserEntity);
+        return new UserAccountResponse(accountEntity.getUserEntity().getId(),
+                accountEntity.getAccountNumber(), accountEntity.getBalance());
     }
 
     @Override
@@ -34,8 +37,14 @@ public class DigitalBankServiceImpl implements DigitalBankService {
         return userRepository.findById(id);
     }
 
-    private UserAccountEntity openNewAccount(UserEntity newUserEntity) {
+    @Override
+    public UserAccountResponse getAccountDetails(Long accountNumber) {
+        UserAccountEntity accountEntity = userAccountRepository.findByAccountNumber(accountNumber);
+        return new UserAccountResponse(accountEntity.getUserEntity().getId(),
+                accountEntity.getAccountNumber(), accountEntity.getBalance());
+    }
 
+    private UserAccountEntity openNewAccount(UserEntity newUserEntity) {
         return saveUserAccount(newUserEntity);
     }
 
